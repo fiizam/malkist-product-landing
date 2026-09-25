@@ -1,43 +1,74 @@
-# Astro Starter Kit: Minimal
+```md
+![Astro](https://img.shields.io/badge/Astro-5C2D91?style=flat&logo=astro&logoColor=white)
+![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=flat&logo=greensock&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-38BDF8?style=flat&logo=tailwindcss&logoColor=white)
+# Roma Malkist — Product Landing Page
 
-```sh
-npm create astro@latest -- --template minimal
-```
+A scroll-driven product landing page concept for **Roma Malkist Belgian Style Chocolate**.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The project explores how a simple FMCG product page can feel more visual and interactive through responsive layouts, product-focused composition, and lightweight motion.
 
-## 🚀 Project Structure
+## Preview
 
-Inside of your Astro project, you'll see the following folders and files:
+The experience includes:
+
+- animated splash screen
+- product-focused hero section
+- layered biscuit showcase
+- scroll-driven “Crunch Moment”
+- immersive chocolate visuals
+- responsive animation for desktop, tablet, and mobile
+
+## Live Demo
+
+Coming soon.
+
+## Built With
+
+- Astro
+- JavaScript
+- Tailwind CSS
+- GSAP
+- ScrollTrigger
+- Lenis
+
+## What I Built
+
+The main focus of this project was creating a product page that feels more like a visual campaign than a standard landing page.
+
+Some of the main interactions include:
+
+- scroll-based product transitions
+- layered image composition
+- responsive GSAP timelines
+- smooth scrolling with Lenis
+- adaptive layouts for different screen sizes
+- lightweight animation using mostly `transform` and `opacity`
+
+## Responsive Design
+
+The layout is designed to adapt across:
+
+- desktop
+- laptop
+- tablet
+- iPad
+- iPhone
+- Android devices
+
+The mobile version keeps the same visual direction and animation flow, while simplifying heavier motion where needed for better performance.
+
+## Project Structure
 
 ```text
-/
+.
 ├── public/
+│   └── assets/
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+│   ├── components/
+│   ├── layouts/
+│   ├── pages/
+│   └── styles/
+├── astro.config.mjs
+├── package.json
+└── README.md
