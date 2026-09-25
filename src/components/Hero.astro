@@ -1,0 +1,230 @@
+---
+---
+<section class="relative w-full min-h-[100svh] flex items-center justify-center overflow-hidden bg-warm-cream pt-28 pb-20 md:pt-32 md:pb-32">
+  <div class="relative w-full h-full flex flex-col items-center justify-center hero-inner-wrapper">
+    <!-- Background floating elements -->
+    <div class="absolute inset-0 pointer-events-none" id="hero-parallax">
+      <!-- Decorative Drifting Fragments -->
+      <div class="absolute top-[20%] left-[10%] w-3 h-3 bg-dark-chocolate rounded-sm opacity-20 hero-fragment blur-[1px] will-change-transform"></div>
+      <div class="absolute bottom-[30%] left-[15%] w-2 h-2 bg-biscuit-gold rounded-full opacity-30 hero-fragment will-change-transform"></div>
+      <div class="absolute top-[40%] right-[15%] w-4 h-4 bg-dark-chocolate rounded-sm opacity-15 hero-fragment blur-[2px] rotate-45 will-change-transform"></div>
+      <div class="absolute bottom-[20%] right-[25%] w-2 h-2 bg-roma-red rounded-full opacity-20 hero-fragment will-change-transform"></div>
+      <div class="absolute top-[10%] right-[30%] w-2 h-2 bg-biscuit-gold rounded-sm opacity-25 hero-fragment will-change-transform"></div>
+
+      <img src="/assets/chocolate-splash.png" alt="" class="absolute top-[5%] left-[-20%] md:left-[-10%] w-[70vw] md:w-[50vw] max-w-[600px] opacity-40 hero-splash will-change-transform" decoding="async" draggable="false" />
+      <img src="/assets/biscuit-stack.png" alt="" class="absolute bottom-[5%] right-[-15%] md:right-[-5%] w-[60vw] md:w-[40vw] max-w-[500px] opacity-60 hero-biscuit will-change-transform" decoding="async" draggable="false" />
+    </div>
+
+    <!-- Top Right Decorative Cluster (Badge + Crumbs) -->
+    <div class="absolute top-[12%] right-[5%] md:top-[15%] md:right-[10%] w-32 h-32 md:w-40 md:h-40 pointer-events-none z-20 flex items-center justify-center">
+      
+      <!-- Local Crumbs -->
+      <div class="absolute top-2 right-6 w-2 h-2 bg-biscuit-gold rounded-sm opacity-30 hero-fragment blur-[1px]"></div>
+      <div class="absolute bottom-6 left-2 w-3 h-3 bg-dark-chocolate rounded-full opacity-20 hero-fragment"></div>
+      <div class="absolute top-1/2 -right-1 w-1.5 h-1.5 bg-roma-red rounded-full opacity-30 hero-fragment"></div>
+      
+      <!-- Rotating Micro Badge -->
+      <div class="w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center opacity-0 hero-badge relative will-change-transform">
+        <svg viewBox="0 0 100 100" class="w-full h-full animate-[spin_15s_linear_infinite] text-dark-chocolate/60">
+          <path id="badgePath" d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0" fill="transparent" />
+          <text font-size="8.5" font-weight="bold" font-family="sans-serif" fill="currentColor">
+            <textPath href="#badgePath" startOffset="0" textLength="220" lengthAdjust="spacing">7 CRUNCHY LAYERS • BELGIAN STYLE CHOCOLATE • </textPath>
+          </text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="relative z-10 w-full px-4 sm:px-6 flex flex-col items-center text-center">
+      <h1 class="font-display font-bold leading-[0.85] text-dark-chocolate tracking-tighter mix-blend-multiply flex flex-col items-center" style="font-size: clamp(3.5rem, 12vw, 12rem);">
+        <span class="block overflow-hidden pb-2"><span class="block hero-title-line">CRUNCH INTO</span></span>
+        <span class="block overflow-hidden pb-2"><span class="block hero-title-line">CHOCOLATE.</span></span>
+      </h1>
+      
+      <div class="mt-4 md:mt-6 relative w-[90vw] md:w-[70vw] max-w-[550px] mx-auto hero-image-container group">
+        <!-- Shine Sweep Mask Layer -->
+        <div class="absolute inset-0 z-20 pointer-events-none overflow-hidden" style="mask-image: url(/assets/malkist-hero.png); mask-size: contain; mask-position: center; mask-repeat: no-repeat; -webkit-mask-image: url(/assets/malkist-hero.png); -webkit-mask-size: contain; -webkit-mask-position: center; -webkit-mask-repeat: no-repeat;">
+           <div class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-25deg] hero-shine"></div>
+        </div>
+        
+        <!-- Ensure the image itself scales nicely -->
+        <img src="/assets/malkist-hero.png" alt="Roma Malkist Belgian Style Chocolate Pack" class="w-full h-auto drop-shadow-2xl hero-pack relative z-10 will-change-transform" fetchpriority="high" draggable="false" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  
+  // Use a class or attribute selector for cleaner scoping if this component is used multiple times, 
+  // but for landing page hero, class selection is fine.
+  document.addEventListener('DOMContentLoaded', () => {
+    const mm = gsap.matchMedia();
+
+    // DESKTOP & TABLET
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      // Set initial states immediately
+      gsap.set('.hero-inner-wrapper', { scale: 0.96, opacity: 0 });
+      gsap.set('.hero-title-line', { yPercent: 110 });
+      gsap.set('.hero-pack', { scale: 0.85, autoAlpha: 0, y: 40 });
+      gsap.set('.hero-splash', { autoAlpha: 0, x: -50, rotation: -10 });
+      gsap.set('.hero-biscuit', { autoAlpha: 0, x: 50, rotation: 10 });
+      gsap.set('.hero-badge', { autoAlpha: 0, scale: 0.5, rotation: -45 });
+      gsap.set('.hero-fragment', { autoAlpha: 0, y: 20 });
+      gsap.set('.hero-shine', { xPercent: 0 });
+
+      // Run animation when splash screen is done
+      document.addEventListener('splashComplete', () => {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' }});
+        
+        // 1. Entrance of the whole hero container
+        tl.to('.hero-inner-wrapper', {
+          scale: 1,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power3.out'
+        }, 0);
+
+        // 2. Cascade elements inside
+        tl.to('.hero-title-line', {
+          yPercent: 0,
+          duration: 1.2,
+          stagger: 0.15
+        }, 0.2)
+      .to('.hero-pack', {
+        scale: 1,
+        autoAlpha: 1,
+        y: 0,
+        duration: 1.4,
+        ease: 'expo.out'
+      }, "-=0.8")
+      .to('.hero-splash', {
+        autoAlpha: 0.4,
+        x: 0,
+        rotation: 0,
+        duration: 1.8,
+        ease: 'power2.out'
+      }, "-=1.2")
+      .to('.hero-biscuit', {
+        autoAlpha: 0.6,
+        x: 0,
+        rotation: 0,
+        duration: 1.8,
+        ease: 'power2.out'
+      }, "-=1.6")
+      .to('.hero-badge', {
+        autoAlpha: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 1.5,
+        ease: 'back.out(1.5)'
+      }, "-=1.4")
+      .to('.hero-fragment', {
+        autoAlpha: 1,
+        y: 0,
+        duration: 1.5,
+        stagger: 0.1,
+        ease: 'power2.out'
+      }, "-=1.5");
+
+      // Subtle shine sweep shortly after pack lands
+      tl.to('.hero-shine', {
+        xPercent: 400,
+        duration: 1.2,
+        ease: 'power1.inOut'
+      }, "-=0.2");
+
+      // Continuous drifting for fragments, controlled by ScrollTrigger to pause when offscreen
+      const driftTween = gsap.to('.hero-fragment', {
+        y: '-=25',
+        x: 'random(-15, 15)',
+        rotation: 'random(-30, 30)',
+        duration: 'random(4, 6)',
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        paused: true
+      });
+
+      ScrollTrigger.create({
+        trigger: '.hero-inner-wrapper',
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: () => driftTween.play(),
+        onLeave: () => driftTween.pause(),
+        onEnterBack: () => driftTween.play(),
+        onLeaveBack: () => driftTween.pause(),
+      });
+
+      }); // End splashComplete listener
+
+      // Optimized Light parallax on mousemove for desktop
+      const heroSection = document.querySelector('.bg-warm-cream');
+      if (heroSection) {
+        
+        // Use gsap.quickTo for massive performance gain on mousemove
+        const xSplash = gsap.quickTo('.hero-splash', 'x', { duration: 0.6, ease: 'power3' });
+        const ySplash = gsap.quickTo('.hero-splash', 'y', { duration: 0.6, ease: 'power3' });
+        
+        const xBiscuit = gsap.quickTo('.hero-biscuit', 'x', { duration: 0.6, ease: 'power3' });
+        const yBiscuit = gsap.quickTo('.hero-biscuit', 'y', { duration: 0.6, ease: 'power3' });
+        
+        const xPack = gsap.quickTo('.hero-pack', 'x', { duration: 0.4, ease: 'power3' });
+        const yPack = gsap.quickTo('.hero-pack', 'y', { duration: 0.4, ease: 'power3' });
+        
+        const xBadge = gsap.quickTo('.hero-badge', 'x', { duration: 0.8, ease: 'power3' });
+        const yBadge = gsap.quickTo('.hero-badge', 'y', { duration: 0.8, ease: 'power3' });
+
+        heroSection.addEventListener('mousemove', (e: Event) => {
+          const mouseEvent = e as MouseEvent;
+          const x = (mouseEvent.clientX / window.innerWidth - 0.5) * 20;
+          const y = (mouseEvent.clientY / window.innerHeight - 0.5) * 20;
+          
+          xSplash(x * 3);
+          ySplash(y * 3);
+          
+          xBiscuit(-x * 4);
+          yBiscuit(-y * 4);
+          
+          xPack(x * -1.5);
+          yPack(y * -1.5);
+          
+          xBadge(x * 2);
+          yBadge(y * 2);
+        });
+      }
+    });
+
+    // MOBILE
+    mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+      gsap.set('.hero-inner-wrapper', { opacity: 0 });
+      gsap.set('.hero-title-line', { yPercent: 100 });
+      gsap.set('.hero-pack', { scale: 0.9, autoAlpha: 0, y: 30 });
+      gsap.set('.hero-splash, .hero-biscuit', { autoAlpha: 0, scale: 0.9 });
+      gsap.set('.hero-badge, .hero-fragment', { autoAlpha: 0 });
+      gsap.set('.hero-shine', { xPercent: 0 });
+
+      document.addEventListener('splashComplete', () => {
+        const tl = gsap.timeline({ defaults: { ease: 'power2.out' }});
+        
+        tl.to('.hero-inner-wrapper', { opacity: 1, duration: 1 }, 0)
+          .to('.hero-title-line', { yPercent: 0, duration: 1, stagger: 0.1 }, 0.2)
+          .to('.hero-pack', { scale: 1, autoAlpha: 1, y: 0, duration: 1.2, ease: 'expo.out' }, "-=0.6")
+          .to(['.hero-splash', '.hero-biscuit'], { autoAlpha: 0.5, scale: 1, duration: 1.5 }, "-=1")
+          .to('.hero-badge', { autoAlpha: 1, duration: 1 }, "-=1")
+          .to('.hero-fragment', { autoAlpha: 1, duration: 1, stagger: 0.05 }, "-=1");
+
+        tl.to('.hero-shine', { xPercent: 400, duration: 1, ease: 'power1.inOut' }, "-=0.2");
+      });
+    });
+
+    // Fallback for reduced motion
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set('.hero-title-line', { yPercent: 0 });
+      gsap.set('.hero-pack', { scale: 1, autoAlpha: 1, y: 0 });
+      gsap.set('.hero-splash', { autoAlpha: 0.4, x: 0, rotation: 0 });
+      gsap.set('.hero-biscuit', { autoAlpha: 0.6, x: 0, rotation: 0 });
+    });
+  });
+</script>

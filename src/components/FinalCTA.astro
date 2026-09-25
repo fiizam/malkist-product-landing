@@ -1,0 +1,79 @@
+---
+---
+<section class="relative bg-biscuit-gold py-24 md:py-48 overflow-hidden" id="order">
+  <div class="container mx-auto px-6 text-center flex flex-col items-center relative z-10">
+    <h2 class="font-display font-bold uppercase tracking-tighter text-dark-chocolate leading-none mb-12 md:mb-20 cta-title" style="font-size: clamp(3.5rem, 11vw, 8rem);">
+      Built For <br/> The Crunch.
+    </h2>
+    
+    <div class="relative w-[85vw] md:w-[35vw] max-w-[450px] mb-12 md:mb-20 cta-image-container">
+      <img src="/assets/malkist-pack.png" alt="Roma Malkist Pack" class="w-full h-auto drop-shadow-2xl cta-pack relative z-10 will-change-transform" decoding="async" draggable="false" />
+      <img src="/assets/biscuit-stack.png" alt="Biscuit" class="absolute -bottom-[10%] -right-[10%] md:-right-[30%] w-[80%] md:w-[90%] drop-shadow-xl cta-biscuit z-0 will-change-transform" decoding="async" draggable="false" />
+    </div>
+
+    <div class="cta-button-wrapper">
+      <a href="#layers-section" class="group relative inline-flex items-center justify-center gap-4 bg-dark-chocolate text-warm-cream font-sans font-bold px-10 py-5 md:px-12 md:py-6 rounded-full uppercase text-sm md:text-base tracking-[0.2em] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-dark-chocolate/40">
+        <!-- Background Sweep Layer -->
+        <div class="absolute inset-0 bg-roma-red translate-y-[101%] rounded-full transition-transform duration-500 ease-out group-hover:translate-y-0"></div>
+
+        <span class="relative z-10 transition-colors duration-300">Discover 7 Layers</span>
+        
+        <!-- Minimalist Arrow -->
+        <svg class="relative z-10 w-5 h-5 md:w-6 md:h-6 transition-transform duration-500 ease-out group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#order',
+          start: 'top 75%',
+        }
+      });
+
+      tl.from('.cta-title', {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out'
+      })
+      .from('.cta-pack', {
+        scale: 0.9,
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        ease: 'back.out(1.2)'
+      }, "-=0.6")
+      .from('.cta-biscuit', {
+        x: -40,
+        y: 40,
+        opacity: 0,
+        rotation: -20,
+        duration: 1,
+        ease: 'power2.out'
+      }, "-=0.8")
+      .from('.cta-button-wrapper', {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, "-=0.6");
+    });
+    
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(['.cta-title', '.cta-pack', '.cta-biscuit', '.cta-button-wrapper'], { opacity: 1, y: 0, x: 0, scale: 1, rotation: 0 });
+    });
+  });
+</script>

@@ -1,0 +1,60 @@
+---
+import '@fontsource/oswald/500.css';
+import '@fontsource/oswald/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content="Roma Malkist Belgian Style Chocolate. 7 Layers. One Serious Crunch." />
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      import Lenis from 'lenis';
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Setup lenis for smooth scrolling
+      const lenis = new Lenis({
+        lerp: 0.1,
+        smoothWheel: true,
+      });
+      
+      // Expose globally for components to control scroll
+      (window as any).lenis = lenis;
+
+      lenis.on('scroll', ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      gsap.ticker.lagSmoothing(0);
+
+      // Disable lenis on prefers-reduced-motion
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        lenis.destroy();
+        gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      });
+    </script>
+  </body>
+</html>

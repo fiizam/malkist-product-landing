@@ -1,0 +1,229 @@
+---
+---
+<section class="relative w-full bg-dark-chocolate border-y border-biscuit-gold/10" id="crunch-moment">
+  <!-- Pinned GSAP Container -->
+  <div class="h-[100vh] w-full relative overflow-hidden flex flex-col items-center justify-center" id="crunch-pin-container">
+    
+    <!-- Minimal Typography / Microcopy -->
+    <div class="text-[10px] md:text-[11px] font-sans font-bold uppercase tracking-[0.4em] text-biscuit-gold/80 absolute bottom-20 md:bottom-28 left-1/2 -translate-x-1/2 z-30 crunch-microcopy will-change-transform whitespace-nowrap text-center">
+      Scroll to Crunch
+    </div>
+
+    <!-- Main Assembly Wrapper -->
+    <div class="relative w-[95vw] md:w-[55vw] max-w-[700px] aspect-square flex items-center justify-center crunch-assembly z-20 will-change-transform">
+      
+      <!-- Chocolate Splash Accent (Behind biscuit, initially hidden) -->
+      <img src="/assets/chocolate-splash.png" alt="" class="absolute inset-0 w-[120%] h-[120%] -left-[10%] -top-[10%] object-contain opacity-0 scale-50 z-0 crunch-splash mix-blend-screen pointer-events-none drop-shadow-2xl" />
+      
+      <!-- Micro Crumbs (Spawning from center) -->
+      <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-biscuit-gold rounded-full opacity-0 z-10 crunch-particle p-1"></div>
+      <div class="absolute top-1/2 left-1/2 w-3 h-3 bg-warm-cream rounded-sm opacity-0 z-10 crunch-particle p-2"></div>
+      <div class="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-biscuit-gold rounded-full opacity-0 z-10 crunch-particle p-3"></div>
+      <div class="absolute top-1/2 left-1/2 w-2.5 h-2.5 bg-deep-cocoa rounded-sm opacity-0 z-10 crunch-particle p-4 blur-[1px]"></div>
+
+      <!-- 2 Minimal Biscuit States for High Performance Overlapping Crossfade -->
+      
+      <!-- 1. The original full biscuit -->
+      <img src="/assets/biscuit-snap-full.png" alt="Whole Biscuit" class="absolute inset-0 w-full h-full object-contain z-30 crunch-frame-1 drop-shadow-2xl pointer-events-none" style="will-change: transform, opacity;" decoding="async" draggable="false" />
+      
+      <!-- 2. Snapped Open -->
+      <img src="/assets/biscuit-snapped-open.png" alt="Snapped Open" class="absolute inset-0 w-full h-full object-contain z-20 crunch-frame-2 opacity-0 drop-shadow-2xl pointer-events-none origin-center" style="will-change: transform, opacity;" decoding="async" draggable="false" />
+      
+    </div>
+  </div>
+</section>
+
+<!-- Preload assets for seamless transition -->
+<link rel="preload" href="/assets/biscuit-snap-full.png" as="image" />
+<link rel="preload" href="/assets/biscuit-snapped-open.png" as="image" />
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const mm = gsap.matchMedia();
+    
+    // VISUAL MATCHING CONFIGURATION
+    // Adjust these values to perfectly align the snapped-open image with the full image
+    const SNAP_MATCH = {
+      scale: 1.15, // Scale up snapped-open to match full (tweak this if still slightly different)
+      y: 0,        // Vertical offset compensation if needed (e.g. 2, -2)
+      x: 0         // Horizontal offset compensation if needed
+    };
+    
+    // Desktop and Tablet
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      
+      // Base initial state
+      gsap.set('.crunch-assembly', { scale: 1, y: 0, rotation: 0 });
+      gsap.set('.crunch-frame-1', { opacity: 1, scale: 1, x: 0, y: 0 });
+      // Apply the compensation offset and a slightly smaller start scale for the crossfade breathing effect
+      gsap.set('.crunch-frame-2', { opacity: 0, scale: SNAP_MATCH.scale * 0.98, x: SNAP_MATCH.x, y: SNAP_MATCH.y });
+      
+      // Independent Entrance Animation for Microcopy (Fades in when section enters viewport)
+      gsap.fromTo('.crunch-microcopy', 
+        { opacity: 0, y: 15 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1.2, 
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#crunch-moment',
+            start: 'top 75%', 
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#crunch-pin-container',
+          pin: true,
+          pinSpacing: true,
+          start: 'top top',
+          end: '+=150%', // Shorter scroll distance to prevent blank spacers
+          scrub: 1, // Smooth scrub for natural feel without dropping FPS
+        }
+      });
+
+      // Phase 1: Subtle Tension
+      tl.to('.crunch-assembly', {
+        scale: 1.015,
+        y: 4,
+        rotation: 0.5,
+        duration: 1.5,
+        ease: 'power1.inOut'
+      }, 0);
+      
+      tl.to('.crunch-microcopy', {
+        opacity: 0,
+        y: 10,
+        duration: 0.8,
+        ease: 'power2.inOut'
+      }, 0);
+
+      // Phase 2: Smooth Break Transition (Overlapping Crossfade)
+      const breakTime = 1.5;
+
+      // Full biscuit fades out and scales back slightly to simulate shrinking/giving way
+      tl.to('.crunch-frame-1', {
+        opacity: 0,
+        scale: 0.98,
+        duration: 1.2,
+        ease: 'power1.inOut'
+      }, breakTime);
+
+      // Snapped open fades in and scales up to its matched baseline scale simultaneously
+      tl.to('.crunch-frame-2', {
+        opacity: 1,
+        scale: SNAP_MATCH.scale, // Ends exactly at the matched visual scale
+        duration: 1.2,
+        ease: 'power1.inOut'
+      }, breakTime);
+
+      // Very minimal crumb motion to accentuate the snap without noise
+      tl.fromTo('.p-1', { opacity: 0, x: 0, y: 0 }, { opacity: 0.6, x: -12, y: -6, duration: 1.2, ease: 'power1.out' }, breakTime);
+      tl.fromTo('.p-2', { opacity: 0, x: 0, y: 0 }, { opacity: 0.5, x: 15, y: -3, duration: 1.2, ease: 'power1.out' }, breakTime);
+      
+      // Extremely subtle splash
+      tl.fromTo('.crunch-splash', 
+        { opacity: 0, scale: 0.95 }, 
+        { opacity: 0.08, scale: 1, duration: 1.2, ease: 'power1.out' }, 
+        breakTime
+      );
+
+      // Phase 3: After Break Stable Drift
+      tl.to('.crunch-assembly', {
+        scale: 1.025,
+        y: 0,
+        rotation: 0,
+        duration: 1.5,
+        ease: 'power1.inOut'
+      }, breakTime + 1.2);
+
+      // Phase 4: Reveal Next Section Smoothly
+      tl.to('.crunch-assembly', {
+        opacity: 0,
+        scale: 0.98,
+        y: -40,
+        duration: 1.2,
+        ease: 'power2.inOut'
+      }, breakTime + 2.7);
+
+      tl.to(['.crunch-splash', '.crunch-particle'], {
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.inOut'
+      }, breakTime + 2.7);
+
+      // Pointer parallax on desktop for tactile feel
+      const container = document.getElementById('crunch-pin-container');
+      if (container) {
+        const xTo = gsap.quickTo('.crunch-assembly', 'x', { duration: 0.8, ease: 'power3' });
+        const yTo = gsap.quickTo('.crunch-assembly', 'y', { duration: 0.8, ease: 'power3' });
+        
+        container.addEventListener('mousemove', (e) => {
+          const x = (e.clientX / window.innerWidth - 0.5) * 15;
+          const y = (e.clientY / window.innerHeight - 0.5) * 15;
+          xTo(x);
+          yTo(y);
+        });
+      }
+    });
+
+    // Mobile fallback (simpler and faster)
+    mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+      gsap.set('.crunch-assembly', { scale: 1, y: 0, rotation: 0 });
+      gsap.set('.crunch-frame-1', { opacity: 1, scale: 1, x: 0, y: 0 });
+      gsap.set('.crunch-frame-2', { opacity: 0, scale: SNAP_MATCH.scale * 0.98, x: SNAP_MATCH.x, y: SNAP_MATCH.y });
+
+      // Mobile Entrance Animation
+      gsap.fromTo('.crunch-microcopy', 
+        { opacity: 0, y: 10 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1, 
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '#crunch-moment',
+            start: 'top 80%', 
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#crunch-pin-container',
+          pin: true,
+          pinSpacing: true,
+          start: 'top top',
+          end: '+=100%',
+          scrub: 1,
+        }
+      });
+
+      tl.to('.crunch-assembly', { scale: 1.01, duration: 1 }, 0);
+      tl.to('.crunch-microcopy', { opacity: 0, y: 5, duration: 0.5 }, 0);
+      
+      // Simple Crossfade with scale compensation
+      tl.to('.crunch-frame-1', { opacity: 0, scale: 0.98, duration: 1 }, 1);
+      tl.to('.crunch-frame-2', { opacity: 1, scale: SNAP_MATCH.scale, duration: 1 }, 1);
+      
+      // Reveal
+      tl.to('.crunch-assembly', { opacity: 0, y: -20, duration: 1 }, 2);
+    });
+
+    // Accessibility
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set('.crunch-assembly', { scale: 1 });
+      gsap.set('.crunch-microcopy', { display: 'none' });
+      // Leave static as a whole biscuit
+    });
+  });
+</script>

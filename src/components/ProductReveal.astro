@@ -1,0 +1,63 @@
+---
+---
+<section class="relative w-full h-[150svh] bg-dark-chocolate" id="product-reveal">
+  <div class="sticky top-0 h-[100svh] w-full flex items-center justify-center overflow-hidden">
+    <!-- Base text that gets revealed over -->
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+      <h2 class="text-[12vw] md:text-[8vw] font-display uppercase tracking-tighter text-deep-cocoa/50 leading-none">
+        Taste the <br/> Real Belgian
+      </h2>
+    </div>
+
+    <!-- The masked element containing the product -->
+    <div class="reveal-mask absolute inset-0 flex items-center justify-center bg-warm-cream" style="clip-path: circle(0% at 50% 50%);">
+      <div class="relative flex flex-col items-center justify-center w-full h-full">
+        <h2 class="absolute top-[15%] md:top-[10%] text-[14vw] md:text-[9vw] font-display font-bold uppercase tracking-tighter text-roma-red mix-blend-multiply opacity-80 leading-none z-0">
+          Perfection.
+        </h2>
+        <img src="/assets/malkist-pack.png" alt="Roma Malkist Pack" class="reveal-pack relative z-10 w-[75vw] md:w-[35vw] max-w-[500px] drop-shadow-2xl" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#product-reveal',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1,
+        }
+      });
+
+      // Calculate the max radius needed to cover the screen
+      const getRadius = () => {
+        return Math.sqrt(Math.pow(window.innerWidth, 2) + Math.pow(window.innerHeight, 2)) / 2;
+      };
+
+      tl.to('.reveal-mask', {
+        clipPath: () => `circle(${getRadius()}px at 50% 50%)`,
+        ease: 'power2.inOut',
+      })
+      .from('.reveal-pack', {
+        scale: 0.8,
+        y: 100,
+        ease: 'power1.out',
+      }, "<0.2");
+    });
+    
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set('.reveal-mask', { clipPath: 'circle(100% at 50% 50%)' });
+      gsap.set('.reveal-pack', { scale: 1, y: 0 });
+    });
+  });
+</script>
