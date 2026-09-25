@@ -1,7 +1,3 @@
-```md
-![Astro](https://img.shields.io/badge/Astro-5C2D91?style=flat&logo=astro&logoColor=white)
-![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=flat&logo=greensock&logoColor=black)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-38BDF8?style=flat&logo=tailwindcss&logoColor=white)
 # Roma Malkist — Product Landing Page
 
 A scroll-driven product landing page concept for **Roma Malkist Belgian Style Chocolate**.
