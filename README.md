@@ -19,6 +19,8 @@ The experience includes:
 
 https://malkist-roma.vercel.app/
 
+*Note: This is a concept project created for portfolio purposes. Roma and Roma Malkist are trademarks of their respective owners. Not affiliated with or endorsed by Roma.*
+
 ## Built With
 
 - Astro

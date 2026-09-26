@@ -16,11 +16,24 @@ const { title } = Astro.props;
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F4E7CF" />
+    <link rel="icon" type="image/png" href="/assets/biscuit-stack.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <meta name="description" content="Roma Malkist Belgian Style Chocolate. 7 Layers. One Serious Crunch." />
+    <meta name="description" content="A scroll-driven product landing page concept for Roma Malkist Belgian Style Chocolate, built with Astro, GSAP, and responsive motion." />
+    <link rel="canonical" href="https://malkist-roma.vercel.app/" />
+    
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="A scroll-driven product landing page concept for Roma Malkist Belgian Style Chocolate, built with Astro, GSAP, and responsive motion." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://malkist-roma.vercel.app/" />
+    <meta property="og:image" content="https://malkist-roma.vercel.app/assets/malkist-pack.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content="A scroll-driven product landing page concept for Roma Malkist Belgian Style Chocolate, built with Astro, GSAP, and responsive motion." />
+    <meta name="twitter:image" content="https://malkist-roma.vercel.app/assets/malkist-pack.png" />
   </head>
   <body>
     <slot />
